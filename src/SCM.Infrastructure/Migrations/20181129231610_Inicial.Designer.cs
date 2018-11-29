@@ -10,7 +10,7 @@ using SCM.Infrastructure.Data;
 namespace SCM.Infrastructure.Migrations
 {
     [DbContext(typeof(SCMContext))]
-    [Migration("20181129225904_Inicial")]
+    [Migration("20181129231610_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,13 +27,16 @@ namespace SCM.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CEP");
+                    b.Property<string>("CEP")
+                        .HasColumnType("varchar(9)");
 
-                    b.Property<string>("Logradouro");
+                    b.Property<string>("Logradouro")
+                        .HasColumnType("varchar(400)");
 
                     b.Property<int>("ProprietarioId");
 
-                    b.Property<string>("Rua");
+                    b.Property<string>("Rua")
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("Id");
 
@@ -72,7 +75,7 @@ namespace SCM.Infrastructure.Migrations
 
                     b.HasIndex("VeiculoId");
 
-                    b.ToTable("TbInfracao");
+                    b.ToTable("Infracao");
                 });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Proprietario", b =>
@@ -110,7 +113,7 @@ namespace SCM.Infrastructure.Migrations
 
                     b.HasIndex("ProprietarioId");
 
-                    b.ToTable("TbVeiculo");
+                    b.ToTable("Veiculo");
                 });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Endereco", b =>

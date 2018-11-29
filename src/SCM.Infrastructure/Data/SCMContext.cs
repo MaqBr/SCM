@@ -19,9 +19,22 @@ namespace SCM.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Veiculo>().ToTable("TbVeiculo");
-            modelBuilder.Entity<Multa>().ToTable("TbInfracao");
+            modelBuilder.Entity<Veiculo>().ToTable("Veiculo");
+            modelBuilder.Entity<Multa>().ToTable("Infracao");
 
+            #region Configurando a entidade Endereço com Fluent API
+            modelBuilder.Entity<Endereco>()
+                .Property(x => x.Rua)
+                .HasColumnType("varchar(200)");
+
+            modelBuilder.Entity<Endereco>()
+                .Property(x => x.CEP)
+                .HasColumnType("varchar(9)");
+
+            modelBuilder.Entity<Endereco>()
+                .Property(x => x.Logradouro)
+                .HasColumnType("varchar(400)");
+            #endregion
         }
     }
 }

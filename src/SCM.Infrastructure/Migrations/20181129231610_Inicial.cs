@@ -40,9 +40,9 @@ namespace SCM.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Rua = table.Column<string>(nullable: true),
-                    CEP = table.Column<string>(nullable: true),
-                    Logradouro = table.Column<string>(nullable: true),
+                    Rua = table.Column<string>(type: "varchar(200)", nullable: true),
+                    CEP = table.Column<string>(type: "varchar(9)", nullable: true),
+                    Logradouro = table.Column<string>(type: "varchar(400)", nullable: true),
                     ProprietarioId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -57,7 +57,7 @@ namespace SCM.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TbVeiculo",
+                name: "Veiculo",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -69,15 +69,15 @@ namespace SCM.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TbVeiculo", x => x.Id);
+                    table.PrimaryKey("PK_Veiculo", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TbVeiculo_Marca_MarcaId",
+                        name: "FK_Veiculo_Marca_MarcaId",
                         column: x => x.MarcaId,
                         principalTable: "Marca",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_TbVeiculo_Proprietario_ProprietarioId",
+                        name: "FK_Veiculo_Proprietario_ProprietarioId",
                         column: x => x.ProprietarioId,
                         principalTable: "Proprietario",
                         principalColumn: "Id",
@@ -85,7 +85,7 @@ namespace SCM.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TbInfracao",
+                name: "Infracao",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -96,11 +96,11 @@ namespace SCM.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TbInfracao", x => x.Id);
+                    table.PrimaryKey("PK_Infracao", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TbInfracao_TbVeiculo_VeiculoId",
+                        name: "FK_Infracao_Veiculo_VeiculoId",
                         column: x => x.VeiculoId,
-                        principalTable: "TbVeiculo",
+                        principalTable: "Veiculo",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -112,18 +112,18 @@ namespace SCM.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_TbInfracao_VeiculoId",
-                table: "TbInfracao",
+                name: "IX_Infracao_VeiculoId",
+                table: "Infracao",
                 column: "VeiculoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TbVeiculo_MarcaId",
-                table: "TbVeiculo",
+                name: "IX_Veiculo_MarcaId",
+                table: "Veiculo",
                 column: "MarcaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TbVeiculo_ProprietarioId",
-                table: "TbVeiculo",
+                name: "IX_Veiculo_ProprietarioId",
+                table: "Veiculo",
                 column: "ProprietarioId");
         }
 
@@ -133,10 +133,10 @@ namespace SCM.Infrastructure.Migrations
                 name: "Endereco");
 
             migrationBuilder.DropTable(
-                name: "TbInfracao");
+                name: "Infracao");
 
             migrationBuilder.DropTable(
-                name: "TbVeiculo");
+                name: "Veiculo");
 
             migrationBuilder.DropTable(
                 name: "Marca");
