@@ -19,6 +19,19 @@ namespace SCM.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("SCM.ApplicationCore.Entity.Marca", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Descricao");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Marca");
+                });
+
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Multa", b =>
                 {
                     b.Property<int>("Id")
@@ -44,11 +57,15 @@ namespace SCM.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("MarcaId");
+
                     b.Property<string>("Placa");
 
                     b.Property<string>("Renavam");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MarcaId");
 
                     b.ToTable("TbVeiculo");
                 });
@@ -58,6 +75,13 @@ namespace SCM.Infrastructure.Migrations
                     b.HasOne("SCM.ApplicationCore.Entity.Veiculo", "Veiculo")
                         .WithMany("Multas")
                         .HasForeignKey("VeiculoId");
+                });
+
+            modelBuilder.Entity("SCM.ApplicationCore.Entity.Veiculo", b =>
+                {
+                    b.HasOne("SCM.ApplicationCore.Entity.Marca", "Marca")
+                        .WithMany("Veiculos")
+                        .HasForeignKey("MarcaId");
                 });
 #pragma warning restore 612, 618
         }

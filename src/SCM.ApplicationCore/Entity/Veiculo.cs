@@ -11,5 +11,7 @@ namespace SCM.ApplicationCore.Entity
         public string Renavam { get; set; }
         //Propriedade de Navegação (Navigation Property)
         public List<Multa> Multas { get; set; }
+        public int? MarcaId { get; set; }
+        public Marca Marca { get; set; }
     }
 }

@@ -10,7 +10,7 @@ using SCM.Infrastructure.Data;
 namespace SCM.Infrastructure.Migrations
 {
     [DbContext(typeof(SCMContext))]
-    [Migration("20181128235351_Inicial")]
+    [Migration("20181129223955_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,19 @@ namespace SCM.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("SCM.ApplicationCore.Entity.Marca", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Descricao");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Marca");
+                });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Multa", b =>
                 {
@@ -46,11 +59,15 @@ namespace SCM.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("MarcaId");
+
                     b.Property<string>("Placa");
 
                     b.Property<string>("Renavam");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MarcaId");
 
                     b.ToTable("TbVeiculo");
                 });
@@ -60,6 +77,13 @@ namespace SCM.Infrastructure.Migrations
                     b.HasOne("SCM.ApplicationCore.Entity.Veiculo", "Veiculo")
                         .WithMany("Multas")
                         .HasForeignKey("VeiculoId");
+                });
+
+            modelBuilder.Entity("SCM.ApplicationCore.Entity.Veiculo", b =>
+                {
+                    b.HasOne("SCM.ApplicationCore.Entity.Marca", "Marca")
+                        .WithMany("Veiculos")
+                        .HasForeignKey("MarcaId");
                 });
 #pragma warning restore 612, 618
         }
