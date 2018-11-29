@@ -10,7 +10,7 @@ using SCM.Infrastructure.Data;
 namespace SCM.Infrastructure.Migrations
 {
     [DbContext(typeof(SCMContext))]
-    [Migration("20181129223955_Inicial")]
+    [Migration("20181129225904_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,28 @@ namespace SCM.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("SCM.ApplicationCore.Entity.Endereco", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CEP");
+
+                    b.Property<string>("Logradouro");
+
+                    b.Property<int>("ProprietarioId");
+
+                    b.Property<string>("Rua");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProprietarioId")
+                        .IsUnique();
+
+                    b.ToTable("Endereco");
+                });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Marca", b =>
                 {
@@ -53,6 +75,21 @@ namespace SCM.Infrastructure.Migrations
                     b.ToTable("TbInfracao");
                 });
 
+            modelBuilder.Entity("SCM.ApplicationCore.Entity.Proprietario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Nome");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Proprietario");
+                });
+
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Veiculo", b =>
                 {
                     b.Property<int>("Id")
@@ -63,13 +100,25 @@ namespace SCM.Infrastructure.Migrations
 
                     b.Property<string>("Placa");
 
+                    b.Property<int>("ProprietarioId");
+
                     b.Property<string>("Renavam");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MarcaId");
 
+                    b.HasIndex("ProprietarioId");
+
                     b.ToTable("TbVeiculo");
+                });
+
+            modelBuilder.Entity("SCM.ApplicationCore.Entity.Endereco", b =>
+                {
+                    b.HasOne("SCM.ApplicationCore.Entity.Proprietario", "Proprietario")
+                        .WithOne("Endereco")
+                        .HasForeignKey("SCM.ApplicationCore.Entity.Endereco", "ProprietarioId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Multa", b =>
@@ -84,6 +133,11 @@ namespace SCM.Infrastructure.Migrations
                     b.HasOne("SCM.ApplicationCore.Entity.Marca", "Marca")
                         .WithMany("Veiculos")
                         .HasForeignKey("MarcaId");
+
+                    b.HasOne("SCM.ApplicationCore.Entity.Proprietario", "Proprietario")
+                        .WithMany("Veiculos")
+                        .HasForeignKey("ProprietarioId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

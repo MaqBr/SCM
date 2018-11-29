@@ -13,5 +13,8 @@ namespace SCM.ApplicationCore.Entity
         public List<Multa> Multas { get; set; }
         public int? MarcaId { get; set; }
         public Marca Marca { get; set; }
+
+        public int ProprietarioId { get; set; }
+        public Proprietario Proprietario { get; set; }
     }
 }
