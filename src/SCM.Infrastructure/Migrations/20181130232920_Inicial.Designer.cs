@@ -10,7 +10,7 @@ using SCM.Infrastructure.Data;
 namespace SCM.Infrastructure.Migrations
 {
     [DbContext(typeof(SCMContext))]
-    [Migration("20181130230547_Inicial")]
+    [Migration("20181130232920_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,12 @@ namespace SCM.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Acessorio");
+
+                    b.HasData(
+                        new { Id = 1, Descricao = "Roda esportiva" },
+                        new { Id = 2, Descricao = "Aerofolio" },
+                        new { Id = 3, Descricao = "Banco esportivo" }
+                    );
                 });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.AcessorioVeiculo", b =>
@@ -47,6 +53,13 @@ namespace SCM.Infrastructure.Migrations
                     b.HasIndex("VeiculoId");
 
                     b.ToTable("AcessorioVeiculo");
+
+                    b.HasData(
+                        new { AcessorioId = 1, VeiculoId = 1, Id = 1 },
+                        new { AcessorioId = 1, VeiculoId = 2, Id = 2 },
+                        new { AcessorioId = 2, VeiculoId = 2, Id = 3 },
+                        new { AcessorioId = 2, VeiculoId = 1, Id = 4 }
+                    );
                 });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Endereco", b =>
@@ -104,13 +117,19 @@ namespace SCM.Infrastructure.Migrations
 
                     b.Property<decimal>("Valor");
 
-                    b.Property<int?>("VeiculoId");
+                    b.Property<int>("VeiculoId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("VeiculoId");
 
                     b.ToTable("Infracao");
+
+                    b.HasData(
+                        new { Id = 1, Pontuacao = 10.0, Valor = 200m, VeiculoId = 1 },
+                        new { Id = 2, Pontuacao = 30.0, Valor = 500m, VeiculoId = 2 },
+                        new { Id = 3, Pontuacao = 50.0, Valor = 700m, VeiculoId = 1 }
+                    );
                 });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Proprietario", b =>
@@ -128,6 +147,11 @@ namespace SCM.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Proprietario");
+
+                    b.HasData(
+                        new { Id = 1, Email = "neemias@teste.com", Nome = "Neemias" },
+                        new { Id = 2, Email = "marcio@teste.com", Nome = "Marcio" }
+                    );
                 });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Veiculo", b =>
@@ -153,6 +177,11 @@ namespace SCM.Infrastructure.Migrations
                     b.HasIndex("ProprietarioId");
 
                     b.ToTable("Veiculo");
+
+                    b.HasData(
+                        new { Id = 1, Placa = "ABC-1234", ProprietarioId = 1, Renavam = "12212121212" },
+                        new { Id = 2, Placa = "ABC-1235", ProprietarioId = 2, Renavam = "67676766767" }
+                    );
                 });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.AcessorioVeiculo", b =>
@@ -180,7 +209,8 @@ namespace SCM.Infrastructure.Migrations
                 {
                     b.HasOne("SCM.ApplicationCore.Entity.Veiculo", "Veiculo")
                         .WithMany("Multas")
-                        .HasForeignKey("VeiculoId");
+                        .HasForeignKey("VeiculoId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Veiculo", b =>

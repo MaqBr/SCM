@@ -11,5 +11,6 @@ namespace SCM.ApplicationCore.Entity
         public double Pontuacao { get; set; }
         //Propriedade de Navegação (Navigation Property)
         public Veiculo Veiculo { get; set; }
+        public int VeiculoId { get; set; }
     }
 }

@@ -130,7 +130,7 @@ namespace SCM.Infrastructure.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Valor = table.Column<decimal>(nullable: false),
                     Pontuacao = table.Column<double>(nullable: false),
-                    VeiculoId = table.Column<int>(nullable: true)
+                    VeiculoId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -140,23 +140,68 @@ namespace SCM.Infrastructure.Migrations
                         column: x => x.VeiculoId,
                         principalTable: "Veiculo",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Acessorio",
+                columns: new[] { "Id", "Descricao" },
+                values: new object[,]
+                {
+                    { 1, "Roda esportiva" },
+                    { 2, "Aerofolio" },
+                    { 3, "Banco esportivo" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Marca",
                 columns: new[] { "Id", "Descricao" },
-                values: new object[] { 1, "VW" });
+                values: new object[,]
+                {
+                    { 1, "VW" },
+                    { 2, "FIAT" },
+                    { 3, "Ford" }
+                });
 
             migrationBuilder.InsertData(
-                table: "Marca",
-                columns: new[] { "Id", "Descricao" },
-                values: new object[] { 2, "FIAT" });
+                table: "Proprietario",
+                columns: new[] { "Id", "Email", "Nome" },
+                values: new object[,]
+                {
+                    { 1, "neemias@teste.com", "Neemias" },
+                    { 2, "marcio@teste.com", "Marcio" }
+                });
 
             migrationBuilder.InsertData(
-                table: "Marca",
-                columns: new[] { "Id", "Descricao" },
-                values: new object[] { 3, "Ford" });
+                table: "Veiculo",
+                columns: new[] { "Id", "MarcaId", "Placa", "ProprietarioId", "Renavam" },
+                values: new object[] { 1, null, "ABC-1234", 1, "12212121212" });
+
+            migrationBuilder.InsertData(
+                table: "Veiculo",
+                columns: new[] { "Id", "MarcaId", "Placa", "ProprietarioId", "Renavam" },
+                values: new object[] { 2, null, "ABC-1235", 2, "67676766767" });
+
+            migrationBuilder.InsertData(
+                table: "AcessorioVeiculo",
+                columns: new[] { "AcessorioId", "VeiculoId", "Id" },
+                values: new object[,]
+                {
+                    { 1, 1, 1 },
+                    { 2, 1, 4 },
+                    { 1, 2, 2 },
+                    { 2, 2, 3 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Infracao",
+                columns: new[] { "Id", "Pontuacao", "Valor", "VeiculoId" },
+                values: new object[,]
+                {
+                    { 1, 10.0, 200m, 1 },
+                    { 3, 50.0, 700m, 1 },
+                    { 2, 30.0, 500m, 2 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AcessorioVeiculo_VeiculoId",
