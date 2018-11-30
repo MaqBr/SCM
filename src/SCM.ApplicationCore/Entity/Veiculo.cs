@@ -16,5 +16,6 @@ namespace SCM.ApplicationCore.Entity
 
         public int ProprietarioId { get; set; }
         public Proprietario Proprietario { get; set; }
+        public List<AcessorioVeiculo> AcessoriosVeiculos { get; set; }
     }
 }

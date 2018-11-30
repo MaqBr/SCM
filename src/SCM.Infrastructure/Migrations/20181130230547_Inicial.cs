@@ -8,6 +8,19 @@ namespace SCM.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Acessorio",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Descricao = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Acessorio", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Marca",
                 columns: table => new
                 {
@@ -85,6 +98,31 @@ namespace SCM.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AcessorioVeiculo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false),
+                    VeiculoId = table.Column<int>(nullable: false),
+                    AcessorioId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AcessorioVeiculo", x => new { x.AcessorioId, x.VeiculoId });
+                    table.ForeignKey(
+                        name: "FK_AcessorioVeiculo_Acessorio_AcessorioId",
+                        column: x => x.AcessorioId,
+                        principalTable: "Acessorio",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AcessorioVeiculo_Veiculo_VeiculoId",
+                        column: x => x.VeiculoId,
+                        principalTable: "Veiculo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Infracao",
                 columns: table => new
                 {
@@ -121,6 +159,11 @@ namespace SCM.Infrastructure.Migrations
                 values: new object[] { 3, "Ford" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AcessorioVeiculo_VeiculoId",
+                table: "AcessorioVeiculo",
+                column: "VeiculoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Endereco_ProprietarioId",
                 table: "Endereco",
                 column: "ProprietarioId",
@@ -145,10 +188,16 @@ namespace SCM.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AcessorioVeiculo");
+
+            migrationBuilder.DropTable(
                 name: "Endereco");
 
             migrationBuilder.DropTable(
                 name: "Infracao");
+
+            migrationBuilder.DropTable(
+                name: "Acessorio");
 
             migrationBuilder.DropTable(
                 name: "Veiculo");

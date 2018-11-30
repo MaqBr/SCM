@@ -20,6 +20,10 @@ namespace SCM.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
+            modelBuilder.Entity<AcessorioVeiculo>()
+                .HasKey(ch=> new { ch.AcessorioId, ch.VeiculoId });
+
+
             #region propagação de dados das entidades
 
             modelBuilder.Entity<Marca>()
@@ -32,8 +36,7 @@ namespace SCM.Infrastructure.Data
                 );
 
             #endregion
-
-
+            
             #region Configurando a entidade Endereco com Fluent API
             modelBuilder.Entity<Endereco>()
                 .Property(x => x.Rua)

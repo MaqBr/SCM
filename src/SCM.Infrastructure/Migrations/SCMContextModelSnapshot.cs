@@ -19,6 +19,34 @@ namespace SCM.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("SCM.ApplicationCore.Entity.Acessorio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Descricao");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Acessorio");
+                });
+
+            modelBuilder.Entity("SCM.ApplicationCore.Entity.AcessorioVeiculo", b =>
+                {
+                    b.Property<int>("AcessorioId");
+
+                    b.Property<int>("VeiculoId");
+
+                    b.Property<int>("Id");
+
+                    b.HasKey("AcessorioId", "VeiculoId");
+
+                    b.HasIndex("VeiculoId");
+
+                    b.ToTable("AcessorioVeiculo");
+                });
+
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Endereco", b =>
                 {
                     b.Property<int>("Id")
@@ -123,6 +151,19 @@ namespace SCM.Infrastructure.Migrations
                     b.HasIndex("ProprietarioId");
 
                     b.ToTable("Veiculo");
+                });
+
+            modelBuilder.Entity("SCM.ApplicationCore.Entity.AcessorioVeiculo", b =>
+                {
+                    b.HasOne("SCM.ApplicationCore.Entity.Acessorio", "Acessorio")
+                        .WithMany("AcessoriosVeiculos")
+                        .HasForeignKey("AcessorioId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SCM.ApplicationCore.Entity.Veiculo", "Veiculo")
+                        .WithMany("AcessoriosVeiculos")
+                        .HasForeignKey("VeiculoId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Endereco", b =>

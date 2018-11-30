@@ -10,7 +10,7 @@ using SCM.Infrastructure.Data;
 namespace SCM.Infrastructure.Migrations
 {
     [DbContext(typeof(SCMContext))]
-    [Migration("20181130001407_Inicial")]
+    [Migration("20181130230547_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,34 @@ namespace SCM.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("SCM.ApplicationCore.Entity.Acessorio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Descricao");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Acessorio");
+                });
+
+            modelBuilder.Entity("SCM.ApplicationCore.Entity.AcessorioVeiculo", b =>
+                {
+                    b.Property<int>("AcessorioId");
+
+                    b.Property<int>("VeiculoId");
+
+                    b.Property<int>("Id");
+
+                    b.HasKey("AcessorioId", "VeiculoId");
+
+                    b.HasIndex("VeiculoId");
+
+                    b.ToTable("AcessorioVeiculo");
+                });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Endereco", b =>
                 {
@@ -125,6 +153,19 @@ namespace SCM.Infrastructure.Migrations
                     b.HasIndex("ProprietarioId");
 
                     b.ToTable("Veiculo");
+                });
+
+            modelBuilder.Entity("SCM.ApplicationCore.Entity.AcessorioVeiculo", b =>
+                {
+                    b.HasOne("SCM.ApplicationCore.Entity.Acessorio", "Acessorio")
+                        .WithMany("AcessoriosVeiculos")
+                        .HasForeignKey("AcessorioId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SCM.ApplicationCore.Entity.Veiculo", "Veiculo")
+                        .WithMany("AcessoriosVeiculos")
+                        .HasForeignKey("VeiculoId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Endereco", b =>
