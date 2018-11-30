@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SCM.ApplicationCore.Entity;
+using SCM.Infrastructure.EntityConfig;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,7 +23,6 @@ namespace SCM.Infrastructure.Data
 
             modelBuilder.Entity<AcessorioVeiculo>()
                 .HasKey(ch=> new { ch.AcessorioId, ch.VeiculoId });
-
 
             #region propagação de dados das entidades
 
@@ -97,17 +97,8 @@ namespace SCM.Infrastructure.Data
                 .HasColumnType("varchar(400)");
             #endregion
 
-            #region Configurando a entidade Veiculo com Fluent API
-            modelBuilder.Entity<Veiculo>().ToTable("Veiculo");
-            modelBuilder.Entity<Veiculo>()
-                .Property(x => x.Placa)
-                .HasColumnType("varchar(10)");
-
-            modelBuilder.Entity<Veiculo>()
-                .Property(x => x.Renavam)
-                .HasColumnType("varchar(15)");
-
-            #endregion
+            modelBuilder.ApplyConfiguration(new MarcaConfig());
+            modelBuilder.ApplyConfiguration(new VeiculoConfig());
 
             #region Configurando a entidade Proprietario com Fluent API
             modelBuilder.Entity<Proprietario>()
@@ -118,12 +109,6 @@ namespace SCM.Infrastructure.Data
                 .Property(x => x.Email)
                 .HasColumnType("varchar(100)");
 
-            #endregion
-
-            #region Configurando a entidade Marca com Fluent API
-            modelBuilder.Entity<Marca>()
-                .Property(x => x.Descricao)
-                .HasColumnType("varchar(30)");
             #endregion
 
             #region Configurando a entidade Multa com Fluent API
