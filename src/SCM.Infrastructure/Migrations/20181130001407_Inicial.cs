@@ -13,7 +13,7 @@ namespace SCM.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Descricao = table.Column<string>(nullable: true)
+                    Descricao = table.Column<string>(type: "varchar(30)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,8 +26,8 @@ namespace SCM.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true)
+                    Nome = table.Column<string>(type: "varchar(100)", nullable: true),
+                    Email = table.Column<string>(type: "varchar(100)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -62,8 +62,8 @@ namespace SCM.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Placa = table.Column<string>(nullable: true),
-                    Renavam = table.Column<string>(nullable: true),
+                    Placa = table.Column<string>(type: "varchar(10)", nullable: true),
+                    Renavam = table.Column<string>(type: "varchar(15)", nullable: true),
                     MarcaId = table.Column<int>(nullable: true),
                     ProprietarioId = table.Column<int>(nullable: false)
                 },
@@ -104,6 +104,21 @@ namespace SCM.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Marca",
+                columns: new[] { "Id", "Descricao" },
+                values: new object[] { 1, "VW" });
+
+            migrationBuilder.InsertData(
+                table: "Marca",
+                columns: new[] { "Id", "Descricao" },
+                values: new object[] { 2, "FIAT" });
+
+            migrationBuilder.InsertData(
+                table: "Marca",
+                columns: new[] { "Id", "Descricao" },
+                values: new object[] { 3, "Ford" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Endereco_ProprietarioId",

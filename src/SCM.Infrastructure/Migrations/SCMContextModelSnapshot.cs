@@ -50,11 +50,18 @@ namespace SCM.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Descricao");
+                    b.Property<string>("Descricao")
+                        .HasColumnType("varchar(30)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Marca");
+
+                    b.HasData(
+                        new { Id = 1, Descricao = "VW" },
+                        new { Id = 2, Descricao = "FIAT" },
+                        new { Id = 3, Descricao = "Ford" }
+                    );
                 });
 
             modelBuilder.Entity("SCM.ApplicationCore.Entity.Multa", b =>
@@ -82,9 +89,11 @@ namespace SCM.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .HasColumnType("varchar(100)");
 
-                    b.Property<string>("Nome");
+                    b.Property<string>("Nome")
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
@@ -99,11 +108,13 @@ namespace SCM.Infrastructure.Migrations
 
                     b.Property<int?>("MarcaId");
 
-                    b.Property<string>("Placa");
+                    b.Property<string>("Placa")
+                        .HasColumnType("varchar(10)");
 
                     b.Property<int>("ProprietarioId");
 
-                    b.Property<string>("Renavam");
+                    b.Property<string>("Renavam")
+                        .HasColumnType("varchar(15)");
 
                     b.HasKey("Id");
 
